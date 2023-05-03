@@ -7,8 +7,8 @@ body{
 
 header{
     text-align: center;
-    background-color: #a4b3b4;
-
+    background-color: aqua;
+    
 }
 
 .logo{
@@ -22,7 +22,6 @@ main{
     flex-direction: column;
     align-self: center;
     flex-wrap: wrap;
-    max-height: 80vh;
 }
 
 .details-section {
@@ -40,7 +39,6 @@ main{
 
 .details-title{
     position: absolute;
-    /* background-color: aqua; */
     font-style: italic;
     font-size: 1.3em;
     left: 15vw;
@@ -59,7 +57,6 @@ main{
     overflow-y: auto;
     justify-content: space-around;
     padding: 0;
-    margin-top: 5vh;
     margin-top: 5vh;
 }
 
@@ -87,4 +84,46 @@ main{
 
 @media(min-width: 650px){
 
+    main{
+        flex-wrap: nowrap;  
+    }
+
+    .details-image{
+        display: block;
+        height: 20vw;
+        width: 20vw;
+    }
+
+    .details-section {
+        flex-direction: column;
+        justify-content: unset;
+    }
+
+
+    .thumbnails-list{
+        max-height: 34vh;
+        margin-top: 4vh;
+    }
+
+    .details-section {
+        margin-top: 3vh;
+    }
+
+    .thumbnails-item{
+        max-width: 8vw;
+        min-width: 8vw;
+        margin-top: 1vh;
+    }
+
+    .thumbnails-image{
+        display: block;
+        width: 8vw;
+        height: 5vw;
+    }
+
+    .details-title{
+        left: 8vw;
+        bottom: 1vh;
+    }
+    
 }

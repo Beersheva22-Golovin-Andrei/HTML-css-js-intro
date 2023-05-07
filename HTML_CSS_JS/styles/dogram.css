@@ -1,3 +1,17 @@
+@font-face{
+    font-family: "airstream";
+    src: url(../fonts/Airstream-webfont.svg);
+    src: url("../fonts/Airstream-webfont.woff");
+}
+@font-face{
+    font-family: "lakeshort";
+    src: url(../fonts/LAKESHOR-webfont.svg);
+    src: url("../fonts/LAKESHOR-webfont.woff");
+}
+
+
+
+
 body{
     display: flex;
     flex-direction: column;
@@ -8,6 +22,7 @@ body{
 header{
     text-align: center;
     background-color: aqua;
+    font-family: airstream;
     
 }
 
@@ -29,6 +44,12 @@ main{
     align-items: center;
     justify-content: center;
     margin-top: 6vh;
+    transition: 2s;
+}
+
+.point .details-section {
+    transform: scale(0.0001);
+    transition: 0;
 }
 
 .details-image{
@@ -43,6 +64,7 @@ main{
     font-size: 1.3em;
     left: 15vw;
     bottom: 1vh;
+    font-family: airstream;
 }
 
 .details-container{
@@ -70,6 +92,12 @@ main{
     /* background-color: aqua; */
 }
 
+.thumbnails-item:hover{
+
+    border-color: greenyellow;
+    transform: scale(1.2);
+}
+
 .thumbnails-image{
     display: block;
     width: 13vw;
@@ -80,39 +108,66 @@ main{
     display: block;
     text-align: center;
     background-color: aqua;
+    font-family: lakeshort;
 }
+
+.hidden{
+    
+}
+
+.hide-button{
+    font-size: 1.5em;
+    color: black;
+    position: absolute;
+    bottom: -10vh;
+    right: 10vw;
+    background: transparent;
+}
+
+.point{
+    transform: scale(0.0001);
+    transition: 0;
+}
+
 
 @media(min-width: 650px){
 
+    header{
+        font-size: 1.5em;
+    }
+
     main{
-        flex-wrap: nowrap;  
+        flex-wrap: nowrap;
+        flex-direction: row-reverse;
+        align-self: start;  
     }
 
     .details-image{
         display: block;
-        height: 20vw;
-        width: 20vw;
+        height: 35vw;
+        width: 35vw;
     }
-
-    .details-section {
-        flex-direction: column;
-        justify-content: unset;
-    }
-
 
     .thumbnails-list{
-        max-height: 34vh;
-        margin-top: 4vh;
+        max-height: 80vh;
+        margin-top: 2vh;
+        margin-left: 5vw;
+        max-width: 20vw;
     }
 
     .details-section {
-        margin-top: 3vh;
+        flex-direction: row;
+        justify-content: right;
+        margin-top: -6vh;
+        margin-left: 20vw;
     }
 
     .thumbnails-item{
+        flex-direction: column;
         max-width: 8vw;
         min-width: 8vw;
-        margin-top: 1vh;
+        margin-top: 0vh;
+        
     }
 
     .thumbnails-image{
@@ -122,8 +177,29 @@ main{
     }
 
     .details-title{
-        left: 8vw;
-        bottom: 1vh;
+        font-size: 2em;
+        left: 15vw;
+        bottom: 2vh;
     }
-    
+
+    .hidden .thumbnails-list{
+        max-width:max-content
+    }
+
+     .hidden .details-image{
+        display: none;
+    } 
+
+    .hidden .hide-button{
+     display: none;
+    }
+
+    .hidden .details-title{
+        display: none;
+    }
+
+    .hidden .details-section{
+        margin-left: 0;
+    }
+
 }

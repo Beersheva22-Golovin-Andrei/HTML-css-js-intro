@@ -85,4 +85,37 @@ function getColumns (columnNumber, startColor){
 return `<div>${column.join('')}</div>`
 }
 
-bodyId.innerHTML = getChessBoard(10, 10);
+//bodyId.innerHTML = getChessBoard(10, 10);
+
+const a = [1,2,3,4,5,6,7];
+const b = [50,60,70,80,90,100];
+
+// let index = a.indexOf(5);
+// let res = a.splice(index+1, 0, ...b);
+// //console.log(a);
+// // console.log(a.slice(2,6));
+// // console.log(a);
+// let greaterThanTen = a.findIndex(e=>e>10);
+// let newArrAfterFilter = a.filter(e=>e>10);
+
+
+
+function arrayCopy (src, posSrc, dst, posDest, length){
+    let elementsForInsert = src.slice(posSrc, posSrc+length);
+    dst.splice(posDest, elementsForInsert.length, ...elementsForInsert);
+}
+
+//arrayCopy(b, 3, a, 2, 7);
+
+function moveElement(array, pos, shift){
+    let temp = array.splice(pos, pos+1);
+    pos +=shift;
+    if (pos<0) pos = 0;
+    if (pos>array.length) pos = array.length;
+    array.splice(pos, 0, ...temp);           
+}
+
+moveElement(a, 6, -9);
+//console.log(a);
+
+

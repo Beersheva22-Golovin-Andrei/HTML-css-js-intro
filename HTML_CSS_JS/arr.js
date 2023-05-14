@@ -87,7 +87,7 @@ return `<div>${column.join('')}</div>`
 
 //bodyId.innerHTML = getChessBoard(10, 10);
 
-const a = [1,2,3,4,5,6,7];
+const a = [10,2,33,40,5,6,7];
 const b = [50,60,70,80,90,100];
 
 // let index = a.indexOf(5);
@@ -115,7 +115,20 @@ function moveElement(array, pos, shift){
     array.splice(pos, 0, ...temp);           
 }
 
-moveElement(a, 6, -9);
+//moveElement(a, 6, -9);
 //console.log(a);
 
+// console.log(a.reduce((res,b)=> {
+//     if (b<res[0]){
+//        res[0]=b;
+//     } else {
+//     if (b>res[1]){
+//         res[1]=b
+//     }
+// }  
+//     return res;
+// }, [a[0], a[0]]));
 
+console.log(a.sort((a,b)=>a-b));
+const strArr = ['cf', 'a', 'gf', 'r', 'b', 'a', 8, 33, 100000];
+console.log(strArr.sort());

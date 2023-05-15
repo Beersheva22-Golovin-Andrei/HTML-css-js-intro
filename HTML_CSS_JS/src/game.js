@@ -29,13 +29,12 @@ function checkLetter() {
     let letter = inputLetter.value;
         count++;
         let word = quest[0];
+        let compens=0;
         while(word.includes(letter)) {
             let index = word.indexOf(letter);
-            ''.replace
-
-
             word = word.substring(index+1);
-            squareElemnts[index].style.backgroundColor = 'white';
+            squareElemnts[index+compens].style.backgroundColor = 'white';
+            compens+=index+1;
         }
          if (count==nMoves) {
              guesWholeWord();

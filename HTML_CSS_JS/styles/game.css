@@ -7,12 +7,11 @@ body {
 }
 .input-group {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
 }
 .square {
-    margin-top: 5vh;
-    margin-bottom:5vh;
+   margin: 5px;
     width: 30px;
     height: 30px;
     border: 1px solid black;
@@ -21,7 +20,7 @@ body {
     font-size: 3vh;
 }
 
-.latters-group{
+#letters-group{
     display: flex;
     flex-direction: row;
 }

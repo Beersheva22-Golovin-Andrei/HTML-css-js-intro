@@ -1,70 +1,88 @@
-const nMoves = 6;
-//elements
-const words = ['apple', 'click', 'seven', 'green', 'phone', 'book'];
-let word;
-const inputElement = document.getElementById('input-id');
+let nMoves;
+const percentGuessLetters = 30;
+const quests = [['Green frut. Iphone maker.', 'apple'], ['Wrong reality, that seems', 'illusion']];
+let quest;
+const inputLetter = document.getElementById('input-letter-id');
+
+const sectionElement = document.getElementById('letters-group');
+
+const inputWord = document.getElementById('input-word-id');
+const guesWordButtom = document.getElementById('gues-word-id'); 
+const questionElement = document.getElementById("quastion");
 const goButtonElement = document.getElementById("go-id");
-const squareElemnts = [];
-squareElemnts.length = 5;
-for (let i=0; i<=5; i++){
-    squareElemnts[i]=document.getElementById("square-id-".concat(i+1));
-}
+const checkWordButtonElement = document.getElementById("check-word");
+
+let squareElemnts;
 const resultMessageElement = document.getElementById("game-result");
 const playAgainButtonElement = document.getElementById("play-again-id");
-//global variables
 let count;
-//functions
 
-function game() {
-    let inWord = inputElement.value;
-    if (inWord.length!=5){
-        alert('word must contain 5 latters!');     
-    } else {
+function buildBlockElements (answer, hidden){
+    const divElements = [];
+    let color = hidden ? 'black' : 'white';
+    divElements.length = answer.length;
+    let i = 0;
+    return [...divElements].map(()=>`<div id="square-id-${i}" style="background-color: ${color}" class="square">${answer.charAt(i++)}</div>`);
+}
+
+function checkLetter() {
+    let letter = inputLetter.value;
         count++;
-        let countOfRight = 0; 
-        for (let i = 0; i<5; i++){
-            let letter = inWord.charAt(i);
-            squareElemnts[i].innerHTML = letter;
-            let color = 'gray';
-            if (letter==word.charAt(i)){
-                color = 'green';
-                countOfRight++;
-            } else if (word.includes(letter)){
-                color = 'yellow';
-            }
-            squareElemnts[i].style.backgroundColor = color; 
+        let word = quest[0];
+        while(word.includes(letter)) {
+            let index = word.indexOf(letter);
+            ''.replace
+
+
+            word = word.substring(index+1);
+            squareElemnts[index].style.backgroundColor = 'white';
         }
-        if (countOfRight==5) {
-            finishGame("You are winner!");
-        } else if(count==nMoves){
-            finishGame("You lose!");
-        }
-    }
-    
-inputElement.value = '';
+         if (count==nMoves) {
+             guesWholeWord();
+         }
+    inputLetter.value = '';    
 }
 
 
 function startGame() {
+    //inputLetter.readOnly = false;
+    inputWord.hidden = true;
+    quest = ['asdasdsddadaa', 'quastion: kjjkkjjhkhjhkjh'];                  //quests[Math.floor(Math.random() * quests.length)];
+    sectionElement.innerHTML = `${buildBlockElements(quest[0], true).join('')}`;
+    questionElement.innerHTML = quest[1];
     resultMessageElement.innerHTML = '';
     playAgainButtonElement.hidden = true;
     count = 0;
-    word = words[Math.floor(Math.random() * words.length)];
     goButtonElement.disabled = false;
-    inputElement.readOnly = false;
-    squareElemnts.forEach(el=>{
-        el.style.backgroundColor = 'white';
-        el.innerHTML = '';
-     });     
+    nMoves = Math.floor(quest[0].length*percentGuessLetters/100);
+    squareElemnts = document.querySelectorAll(".square");
+    checkWordButtonElement.hidden = true;
+}
+
+function guesWholeWord (){
+    inputLetter.hidden = true;
+    inputWord.hidden = false;
+    checkWordButtonElement.hidden = false;
+    goButtonElement.hidden = true;
+    resultMessageElement.innerHTML = 'You have to guess whole word!';
+}
+
+function checkWord (){
+    let word = inputWord.value;
+    let res = word==quest[0] ? 'you are winner!': 'You lose!';
+    finishGame(res);
 }
 
 function finishGame(result) {
     goButtonElement.disabled = true;
-    inputElement.readOnly = true;
     playAgainButtonElement.hidden = false;
     resultMessageElement.innerHTML = result;
+    checkWordButtonElement.hidden = true;
+
 }
-//Actions
-goButtonElement.addEventListener("click", game );
-playAgainButtonElement.addEventListener("click", startGame )
+
+goButtonElement.addEventListener("click", checkLetter );
+playAgainButtonElement.addEventListener("click", startGame );
+guesWordButtom.addEventListener("click", guesWholeWord);
+checkWordButtonElement.addEventListener("click", checkWord)
 startGame();

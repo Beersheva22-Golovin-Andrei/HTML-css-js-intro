@@ -61,7 +61,7 @@ function isAnagram (word, anagram){
             let count = 0;
             while(res && count<word.length) {
                 let sumbol = anagram.charAt(count);
-                if (temp[sumbol]){
+                if (!temp[sumbol]){
                     res = false;
                 } else {
                     temp[sumbol]--;

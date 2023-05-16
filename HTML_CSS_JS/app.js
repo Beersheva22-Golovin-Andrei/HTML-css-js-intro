@@ -34,9 +34,9 @@ let arr = ["lmn", "ab", "lmn", "c", "d", "ab", "a", "a", "lmn"];
 function displayOccurrences(array) {
 const helper = {};
 array.forEach(el=>{
-    helper[el] = !!helper[el] ? helper[el]+1 : 1;
+    helper[el] = helper[el] ? helper[el]+1 : 1;
 });
-let c = Object.entries(helper).sort((a,b)=>{
+Object.entries(helper).sort((a,b)=>{
     let res = 0;
     if (b[1]!=a[1]) {
         res = b[1]-a[1];
@@ -49,4 +49,30 @@ let c = Object.entries(helper).sort((a,b)=>{
 }).forEach(a=>console.log(a[0]+' - '+a[1]));
 }
 
-displayOccurrences(arr);
+//displayOccurrences(arr);
+
+function isAnagram (word, anagram){
+    let res = true;
+    word = word.toLowerCase();
+    anagram = anagram.toLowerCase();
+    if (word != anagram){
+        if (word.length == anagram.length){
+            const temp = Array.from(word).reduce((temp, s) => ({...temp, [s]: temp[s] ? temp[s]+1 : 1}), {});
+            let count = 0;
+            while(res && count<word.length) {
+                let sumbol = anagram.charAt(count);
+                if (temp[sumbol]){
+                    res = false;
+                } else {
+                    temp[sumbol]--;
+                    count++;
+                }
+            }
+        } else {
+            res = false;
+        }
+    }
+return res;
+}
+
+console.log(isAnagram ('word', 'wdro'));

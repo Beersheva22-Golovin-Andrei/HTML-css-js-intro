@@ -52,27 +52,41 @@ Object.entries(helper).sort((a,b)=>{
 //displayOccurrences(arr);
 
 function isAnagram (word, anagram){
-    let res = true;
+    let res = false;
     word = word.toLowerCase();
     anagram = anagram.toLowerCase();
     if (word != anagram){
         if (word.length == anagram.length){
             const temp = Array.from(word).reduce((temp, s) => ({...temp, [s]: temp[s] ? temp[s]+1 : 1}), {});
-            let count = 0;
-            while(res && count<word.length) {
-                let sumbol = anagram.charAt(count);
-                if (!temp[sumbol]){
-                    res = false;
-                } else {
-                    temp[sumbol]--;
-                    count++;
-                }
-            }
-        } else {
-            res = false;
-        }
+            res =Array.from(anagram).every(s=>remp[s]-->0);
+     
     }
+}
 return res;
 }
 
-console.log(isAnagram ('word', 'wdro'));
+//console.log(isAnagram ('word', 'wdro'));
+
+//const x = {x: 'x', toString: function(){return 'x';}};
+const y = {y:'y'};
+const d = {x:10, y:20};
+d[x]=120;
+d[y]=200;
+console.log(d);
+console.log(d[x]);
+const f = function(){};
+const num = 2;
+
+f.x = function(a,b){ return a+b;}
+console.log (f.x(2,3));
+
+const ar = [];
+ar.x = 10; //[ x: 10 ]
+console.log(ar);
+
+[2].x = 10;
+console.log([2].x) //undefined
+console.log(Array.from({length:2})); //[ undefined, undefined ]
+console.log(Array.from({length:5}).map((_, index) => index+5)); // get index in lambda (_, index)
+console.log(Array.from({length: 26}).map((_, index) => String.fromCharCode(index+50)).map(s => `<div>${s}</div>`).join(''));
+(1+2).x = 1000;

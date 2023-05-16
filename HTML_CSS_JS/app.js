@@ -90,3 +90,5 @@ console.log(Array.from({length:2})); //[ undefined, undefined ]
 console.log(Array.from({length:5}).map((_, index) => index+5)); // get index in lambda (_, index)
 console.log(Array.from({length: 26}).map((_, index) => String.fromCharCode(index+50)).map(s => `<div>${s}</div>`).join(''));
 (1+2).x = 1000;
+
+

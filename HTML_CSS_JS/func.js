@@ -34,3 +34,11 @@ function displPoint(z,t) {
 
 //displPoint = displPoint.bind(point, 100, 200);
 displPoint(10,20);
+
+const temp = {a: 'a'};
+console.log(temp.toString());
+const rectJson = JSON.stringify(rectangle);
+console.log(rectJson);
+console.log(JSON.parse(rectJson));
+const rectangle2 = {...rectangle};
+console.log(rectangle2);

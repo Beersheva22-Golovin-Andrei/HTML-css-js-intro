@@ -54,3 +54,20 @@ Array.prototype.reduce = function(){
 Array.prototype.forEach = function(){
     this.map()
 }
+
+ Function.prototype.myBind = function(object,...params) {
+    let nameFunc = this.name;
+    object[nameFunc] = this;
+        return function(){
+            object[nameFunc](...params);
+        };
+ }
+
+const point = {x: 3, y: 4};
+
+function displayPoint(z, t) {
+    console.log(`x = ${this.x}, y = ${this.y}, z = ${z}, t = ${t}`)
+}
+
+displayPoint = displayPoint.myBind(point, 100, 200); 
+displayPoint();

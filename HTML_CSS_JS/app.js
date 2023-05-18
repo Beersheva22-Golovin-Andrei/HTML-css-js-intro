@@ -55,11 +55,12 @@ Array.prototype.forEach = function(){
     this.map()
 }
 
- Function.prototype.myBind = function(object,...params) {
+Function.prototype.myBind = function(object,...params) {
+    const temp = {...object};
     let nameFunc = this.name;
-    object[nameFunc] = this;
+    temp[nameFunc] = this;
         return function(){
-            object[nameFunc](...params);
+            temp[nameFunc](...params);
         };
  }
 
@@ -71,3 +72,5 @@ function displayPoint(z, t) {
 
 displayPoint = displayPoint.myBind(point, 100, 200); 
 displayPoint();
+
+

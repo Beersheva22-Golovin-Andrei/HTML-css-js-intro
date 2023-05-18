@@ -57,7 +57,7 @@ Array.prototype.forEach = function(){
 
 Function.prototype.myBind = function(object,...params) {
     const temp = {...object};
-    let nameFunc = this.name;
+    let nameFunc = 'nameFunc';
     temp[nameFunc] = this;
         return function(){
             temp[nameFunc](...params);

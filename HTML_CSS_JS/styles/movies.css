@@ -61,10 +61,11 @@ main{
 .details-title{
     position: absolute;
     font-style: italic;
-    font-size: 1.3em;
+    font-size: 1em;
     left: 15vw;
     bottom: 1vh;
     font-family: airstream;
+    overflow-y: auto;
 }
 
 .details-container{
@@ -177,8 +178,8 @@ main{
     }
 
     .details-title{
-        font-size: 2em;
-        left: 15vw;
+        height: 8vh;
+        left: 3vw;
         bottom: 2vh;
     }
 

@@ -56,5 +56,33 @@ async function displayCar(predicate){
         console.log(error)
     }
 }
-displayCar(id=>id==125).then(()=>console.log('end'));
-console.log('waiting..');
+//displayCar(id=>id==125).then(()=>console.log('end'));
+//console.log('waiting..');
+
+async function getTemperatures (lat, long, startDate, days, hourFrom, hourTo){
+    const start = new Date(startDate);
+    let end = start;
+    end = new Date(end.setDate(start.getDate()+days));
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature&timezone=IST&forecast_days=${days}&start_date=${startDate}&end_date=${end.toISOString().substring(0,10)}`);
+    const strResp = await response.json();
+    const indexes = [];
+    const dateAndTime =[];
+    [...strResp.hourly.time].forEach((t, i)=>{
+        const dateTime = t.split('T');
+        const hour = dateTime[1].split(':')[0];
+        if (hour>=hourFrom&&hour<=hourTo) {
+            indexes.push(i);
+            dateAndTime.push(dateTime);
+        }   
+    });
+    const tempr = strResp.hourly.temperature_2m;
+    const apparentTempr = strResp.hourly.apparent_temperature;
+    const res=[];
+    res.length = indexes.length;
+    indexes.forEach((index, i)=>res.push({date: dateAndTime[i][0], time:  dateAndTime[i][1], temperature: tempr[index], apparentTemperature: apparentTempr[index]}));
+    return res;
+}
+
+getTemperatures(31.89, 34.81, '2023-05-23', 5, 13, 17).then(resp=>console.log(resp)).catch(er=>console.log(er));
+
+

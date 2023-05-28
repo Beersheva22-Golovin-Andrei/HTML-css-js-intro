@@ -9,34 +9,17 @@ const columns = [{field:'date',headerName:'Date'},
 {field:'temperature',headerName:'Temp'},
 {field:'apparentTemperature',headerName:'Fealt Temp'}]
 
-
-
-
-const fromFormData = {city: 'Rehovot', beginDate: getISODateStr(new Date()),
-                      days: 10, hourFrom: 15, hourTo: 22};
-
-
 //objects
 const openMeteoService = new OpenMeteoService(openMeteoConfig.basedUrl);
-
-
 const weatherForm = new WeatherForm("form-place", Object.keys(openMeteoConfig.cities), openMeteoConfig.maxDays); 
+let table = new DataGrid("table-place", columns);
+export function setData (data){
+    const{beginDate, city, days, hourFrom, hourTo} = data;
+    const cityInfo = openMeteoConfig.cities[city];
+    const {lat,long} = cityInfo;
+    openMeteoService.getTemperatures(lat, long, beginDate, getEndDateStr(beginDate, +days), +hourFrom, +hourTo).then(data =>table.fillData(data));
+}
 
-
-
-
-
-const table = new DataGrid("table-place", columns);
-
-
-
-const{city, days, hourFrom, hourTo, beginDate} = await weatherForm.getFormData();
-
-const cityInfo = openMeteoConfig.cities[city];
-
-const {lat,long} = cityInfo;
-
-openMeteoService.getTemperatures(lat, long, data.beginDate, getEndDateStr(beginDate, days),hourFrom, hourTo).then(data =>table.fillData(data));
 
 
 

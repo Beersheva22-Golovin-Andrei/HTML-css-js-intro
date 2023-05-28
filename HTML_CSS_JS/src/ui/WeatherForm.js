@@ -1,5 +1,6 @@
 import { getEndDateStr, getISODateStr } from "../util/date-functions.js";
 import {range} from "../util/number-functions.js";
+import { setData } from "../main.js";
 
 const CITY_ID='city-id';
 const DATE_ID='date-id';
@@ -21,6 +22,7 @@ export default class WeatherForm {
     #cities;
     #parentId
 
+
     constructor(parentId, cities, maxDays) {
         this.#parentId = parentId;
         this.#cities = cities;
@@ -33,28 +35,28 @@ export default class WeatherForm {
     }
 
     #cityHandler(){
-        // внести динамику в зависимости от введенных данных!!
         this.#formData.city = this.#cityElement.value;
     }
 
     #daysHandler(){
-        //
-        this.#formData.days = this.#daysElement.value;
+       const countDays = this.#daysElement.value;
+        this.#formData.days = countDays;
+        this.#dateElement.max = getEndDateStr(getISODateStr(new Date()), +countDays);
     }
 
     #dateHandler(){
-        //
         this.#formData.beginDate = this.#dateElement.value;
     }
 
     #hourFromHandler(){
-        // <=hourTo
-        this.#formData.hourFrom = this.#hourFromElement.value;
+        const hourFrom = this.#hourFromElement.value;
+        this.#formData.hourFrom = hourFrom;
+        setOptionItem(this.#hourToElement, range(+hourFrom,24), 'Hour to');
     }
 
     #hourToHandler(){
-        //
-        this.#formData.hourTo = this.#hourToElement.value;
+        const hourTo = this.#hourToElement.value;
+        this.#formData.hourTo = hourTo;
     }
 
     #setHandlers(){
@@ -63,16 +65,10 @@ export default class WeatherForm {
         this.#daysElement.onchange = this.#daysHandler.bind(this);
         this.#hourFromElement.onchange = this.#hourFromHandler.bind(this);
         this.#hourToElement.onchange = this.#hourToHandler.bind(this);
-        //
         this.#formElement.onsubmit = (event)=> {
             event.preventDefault();
-            
-            getFormData();
-
-
-
-            //console.log(this.#formData);
-        }
+            setData(this.#formData);
+        } 
     }
 
     #setElements(){
@@ -117,9 +113,6 @@ export default class WeatherForm {
         </form>`
     }
 
-    async getFormData(){
-        return this.#formData;
-    }
 
 
 }

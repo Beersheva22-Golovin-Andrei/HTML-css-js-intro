@@ -8,14 +8,12 @@ export default class DataGrid {
         this.#keys=columns.map(c=>c.field);
         this.#fillHeader(parentId, columns.map(c=>c.headerName));
     }
-
+       
     fillData(rowData){
-       this.#tBodyElement.innerHTML = rowData.map(element => `<tr>
-            <td>${element.date}</td>
-            <td>${element.time}</td>
-            <td>${element.temperature}</td>
-            <td>${element.apparentTemperature}</td>
-        </tr>`).join(''); 
+        this.#tBodyElement.innerHTML = rowData.map(element => 
+            `<tr>
+                ${this.#keys.map(key => `<td>${element[key]}</td>`).join('')}
+            </tr>`).join('');
     }
     
 

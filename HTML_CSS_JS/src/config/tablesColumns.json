@@ -1,0 +1,22 @@
+{
+    "sections": [
+        {"title": "Employees", "id": "employees-table-place"},
+        {"title": "Add employee", "id": "employees-form-place"},
+        {"title": "Statistics", "id": "statistics-place"}
+    ],
+
+    "employeeColumns" : [
+        {"field": "id", "headerName": "ID"},
+        {"field": "name", "headerName": "Name"},
+        {"field": "birthYear", "headerName": "Birth year"},
+        {"field": "gender", "headerName": "Gender"},
+        {"field": "salary", "headerName": "Salary(ILS)"},
+        {"field": "department", "headerName": "Department"}
+    ],
+
+    "statisticsColumns" : [
+        {"field": "min", "headerName": "min age"},
+        {"field": "max", "headerName": "max age"},
+        {"field": "count", "headerName": "Count"}
+    ]
+}

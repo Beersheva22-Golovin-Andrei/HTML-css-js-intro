@@ -1,30 +1,28 @@
-import openMeteoConfig from './config/service-config.json' assert {type: 'json'};
-import OpenMeteoService from './service/OpenMeteoService.js';
-import DataGrid from './ui/DataGrid.js';
-import WeatherForm from './ui/WeatherForm.js';
-import { getEndDateStr } from './util/date-functions.js'
+import ApplicationBar from "./ui/ApplicationBar.js";
+import EmployeeForm from "./ui/EmployeeForm.js";
+import DataGrid from "./ui/DataGrid.js";
+import EmployeeService from "./service/EmployeeService.js";
+import tablesColumns from './config/tablesColumns.json' assert {type: 'json'};
+import StatisticService from "./service/StatisticService.js";
 
-const columns = [{ field: 'date', headerName: 'Date' },
-{ field: 'time', headerName: 'Time' },
-{ field: 'temperature', headerName: 'Temp' },
-{ field: 'apparentTemperature', headerName: 'Fealt Temp' }]
+const menu = new ApplicationBar("menu-place", tablesColumns.sections);
+const employeeForm = new EmployeeForm("employees-form-place");
+const employeeTable = new DataGrid ("employees-table-place", tablesColumns.employeeColumns);
+const statisticTable = new DataGrid ("statistics-place", tablesColumns.statisticsColumns);
+const employeeService = new EmployeeService();
+const statisticService = new StatisticService();
 
-//objects
-const openMeteoService = new OpenMeteoService(openMeteoConfig.basedUrl);
-const weatherForm = new WeatherForm("form-place", Object.keys(openMeteoConfig.cities), openMeteoConfig.maxDays);
-let table = new DataGrid("table-place", columns);
-
-async function runApp() {
-    while (true) {
-        const data = await weatherForm.getFormData();
-        const { beginDate, city, days, hourFrom, hourTo } = data;
-        const cityInfo = openMeteoConfig.cities[city];
-        const { lat, long } = cityInfo;
-        const temp = await openMeteoService.getTemperatures(lat, long, beginDate, getEndDateStr(beginDate, +days), +hourFrom, +hourTo)
-        table.fillData(temp);
-    }
+async function run(){
+    while(true){
+    await employeeForm.buttonHasPressed();
+    employeeService.addNewRandomEmployee();
+    console.log("button pressed");
+    employeeTable.fillData(employeeService.getAllEmployees());
+    statisticTable.fillData(statisticService.getStatisticByAge(employeeService.getAllEmployees()));
 }
-runApp();
+}
+run();
+
 
 
 

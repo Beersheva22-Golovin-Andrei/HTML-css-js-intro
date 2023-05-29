@@ -1,0 +1,34 @@
+.menu-section{
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+}
+
+.active{
+    color:white;
+    background-color: blue;
+}
+
+td, th {
+    border: 1px solid #777;
+    padding: 0.5rem;
+    text-align: center;
+}
+ 
+table {
+    align-content: center;
+    border-collapse: collapse;
+    margin: auto;
+}
+ 
+tbody tr:nth-child(odd) {
+    background: #eee;
+}
+
+#employees-table-place{
+    margin-top: 5vh;
+}
+
+#statistics-place{
+    margin-top: 5vh;
+}

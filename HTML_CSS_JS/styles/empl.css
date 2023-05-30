@@ -4,6 +4,7 @@ flex-direction: row;
 justify-content: space-around;
 }
 
+
 .active{
     color:white;
     background-color: blue;
@@ -30,5 +31,29 @@ tbody tr:nth-child(odd) {
 }
 
 #statistics-place{
+    flex: row;
+    flex-direction: row;
     margin-top: 5vh;
-}
+   
+} 
+
+#spinner {
+    position: absolute;
+    left: 48vw;
+    top: 24vh;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #63db34;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    opacity: 50%;
+
+  }
+
+ 
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

@@ -40,14 +40,14 @@ tbody tr:nth-child(odd) {
 #spinner {
     position: absolute;
     left: 48vw;
-    top: 24vh;
+    top: 40vh;
     border: 16px solid #f3f3f3;
     border-top: 16px solid #63db34;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     animation: spin 2s linear infinite;
-    opacity: 50%;
+    opacity: 70%;
 
   }
 

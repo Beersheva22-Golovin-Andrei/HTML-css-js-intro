@@ -7,7 +7,7 @@ import statisticsConfig from "./config/statistics-config.json" assert{type: 'jso
 import employeesConfig from "./config/employees-config.json" assert{type: 'json'}
 import { range } from "./util/number-functions.js";
 import Spinner from "./ui/Spinner.js";
-const N_EMPLOYEES = 5;
+const N_EMPLOYEES = 50;
 //employee model
 //{id: number of 9 digits, name: string, birthYear: number,
 // gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}

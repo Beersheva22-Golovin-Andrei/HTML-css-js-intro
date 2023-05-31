@@ -32,6 +32,8 @@ export default class DataGrid {
             </tbody>
           </table>`
         this.#tBodyElement = document.getElementById(parentId + "-table")
-
     }
+        clearTable(){
+            this.#tBodyElement.innerHTML = '';
+        }
 }

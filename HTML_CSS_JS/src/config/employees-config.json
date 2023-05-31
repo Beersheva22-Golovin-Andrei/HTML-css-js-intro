@@ -1,7 +1,7 @@
 {
     "sections": [
         {"title": "Employees", "id": "employees-table-place"},
-        {"title": "Add employee", "id": "employees-form-place"},
+        {"title": "Add Employee", "id": "employees-form-place"},
         {"title": "Statistics", "id": "statistics-place"}
     ],
 

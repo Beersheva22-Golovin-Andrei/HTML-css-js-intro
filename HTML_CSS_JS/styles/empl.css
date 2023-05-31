@@ -34,7 +34,6 @@ tbody tr:nth-child(odd) {
     flex: row;
     flex-direction: row;
     margin-top: 5vh;
-   
 } 
 
 #spinner {
@@ -51,9 +50,31 @@ tbody tr:nth-child(odd) {
 
   }
 
- 
-  
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .radio-group{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh
+  }
+
+  .row-input{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  p{
+    margin-block-end: 0;
+  }
+
+  .submit-but{
+    margin-top: 5vh;
+  }
+
+  .input-field-birth{
+    width: 11vw;
   }

@@ -7,7 +7,10 @@ import statisticsConfig from "./config/statistics-config.json" assert{type: 'jso
 import employeesConfig from "./config/employees-config.json" assert{type: 'json'}
 import { range } from "./util/number-functions.js";
 import Spinner from "./ui/Spinner.js";
-const N_EMPLOYEES = 3;
+import EmployeeFormUpdate from "./ui/EmployeeFormUpdate.js";
+import CompanyServiceServer from "./service/CompanyServiceServer.js";
+
+const N_EMPLOYEES = 10;
 //employee model
 //{id: number of 9 digits, name: string, birthYear: number,
 // gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
@@ -23,6 +26,7 @@ const { minSalary, maxSalary, departments, minYear, maxYear} = employeesConfig;
 const {age, salary} = statisticsConfig;
 const statisticsIndex = sections.findIndex(s => s.title == "Statistics");
 const employeeIndex = sections.findIndex(s => s.title == "Empolyees");
+
 const employeeColumns = [
     {field: 'id', headerName: 'ID'},
     {field: 'name', headerName: 'Name'},
@@ -30,8 +34,6 @@ const employeeColumns = [
     {field: 'gender', headerName: 'Gender'},
     {field: 'salary', headerName: 'Salary (ILS)'},
     {field: 'department', headerName: 'Department'}
-    
-
 ];
 const statisticsColumns = [
     {field: 'min', headerName: "Min value"},
@@ -40,28 +42,44 @@ const statisticsColumns = [
 ]
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler );
-const companyService = new CompanyService();
+//const companyService = new CompanyService();
+const companyService = new CompanyServiceServer();
 const employeeForm = new EmployeeForm("employees-form-place", departments);
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns );
 const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns );
 
+
+
 employeeForm.addHandler(async (employee) => {
     await action(companyService.addEmployee.bind(companyService, employee));
 });
 
+// const employeeFormForUpdate = new EmployeeFormUpdate("employees-form-update", departments);
+
+// employeeFormForUpdate.addHandler(async (employee, id) => {
+//    const newObj = await action(companyService.updateEmployee.bind(companyService, employee, id));
+//    employeeTable.fillData(await companyService.getAllEmployees(), companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
+   
+   
+//    employeeTable.insertRow({...newObj, id});
+   //employeeFormForUpdate.clearForm();
+    // .then(newObj => {employeeTable.insertRow({...newObj, id});
+    //     return new Promise(resolve=>resolve())})
+    //.then(employeeFormForUpdate.clearForm())
+//})
 
 async function menuHandler(index){
     switch (index){
         case 0: {
             const employees = await action (companyService.getAllEmployees.bind(companyService));
-            employeeTable.fillData(employees);
+            employeeTable.fillData(employees, companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
             break;
         }
         case 1:{
-            const employee = getRandomEmployee(minSalary, maxSalary, minYear, maxYear, departments);
-            await action(companyService.addEmployee.bind(companyService, employee));
-            break;
+            // const employee = getRandomEmployee(minSalary, maxSalary, minYear, maxYear, departments);
+            // await action(companyService.addEmployee.bind(companyService, employee));
+             break;
         }
 
         case statisticsIndex:{
@@ -89,7 +107,22 @@ async function action(serviceFn){
     return res;
 }
 
-action(createRandomEmplyees);
+//action(createRandomEmplyees);
+    
+// function openAndUpdate (id){
+//     const obj = companyService.getById(id);
+//     employeeFormForUpdate.updateFormInit(obj, id);
+// }
 
 
+function openAndUpdate (id){
+    const obj = companyService.getById(id);
+    const newObj = {...obj, id};
+    const employeeFormForUpdate = new EmployeeForm("employees-form-update", departments, newObj, id);
+    employeeFormForUpdate.addHandler(async (employee, id) => {
+    const newObj = await action(companyService.updateEmployee.bind(companyService, employee, id));
+    employeeTable.fillData(await companyService.getAllEmployees(), companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
+    employeeFormForUpdate.clearForm();
+});
+}
 

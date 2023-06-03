@@ -19,6 +19,12 @@ export default class CompanyService {
         return new Promise (resolve => setTimeout(()=>resolve(this.#employees[id]), 1000));
 
     }
+
+    updateEmployee(employee, id){
+        this.#employees[id] = {...employee, id};
+        return new Promise (resolve => setTimeout(()=>resolve(this.#employees[id]), 1000)); 
+    }
+
     #getId() {
         let id;
         do {
@@ -45,4 +51,14 @@ export default class CompanyService {
     getAllEmployees() {
         return new Promise (resolve => setTimeout(()=>resolve(Object.values(this.#employees)), 3000));
     }
+
+    removeById(id){
+        return delete this.#employees[id]
+    }
+
+    getById(id){
+        return this.#employees[id];
+    }
+
+
 }

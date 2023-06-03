@@ -120,7 +120,7 @@ function openAndUpdate (id){
     const newObj = {...obj, id};
     const employeeFormForUpdate = new EmployeeForm("employees-form-update", departments, newObj, id);
     employeeFormForUpdate.addHandler(async (employee, id) => {
-    const newObj = await action(companyService.updateEmployee.bind(companyService, employee, id));
+    await action(companyService.updateEmployee.bind(companyService, employee, id));
     employeeTable.fillData(await companyService.getAllEmployees(), companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
     employeeFormForUpdate.clearForm();
 });

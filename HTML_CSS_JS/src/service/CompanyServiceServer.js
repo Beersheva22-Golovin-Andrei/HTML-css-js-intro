@@ -7,24 +7,23 @@ const URL = 'http://localhost:3500/employees';
 export default class CompanyServiceServer {
     #employees;
    
-    constructor() {
-        this.#employees = {};
-        
-    }
     async addEmployee(employee) {
         await fetch(URL, {
             method: 'POST',
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(employee)
         })
-        //this.#employees[id] = {...employee, id}; 
-        //return new Promise (resolve => setTimeout(()=>resolve(), 500));
+        return new Promise (resolve => setTimeout(()=>resolve(), 500));
 
     }
 
-
-    updateEmployee(employee, id){
-        this.#employees[id] = {...employee, id};
+    async updateEmployee(employee, id){
+        const URL_FOR_UPDATE = URL+'/'+id;
+        await fetch(URL_FOR_UPDATE, {
+            method: 'PUT',
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify(employee)
+        })
         return new Promise (resolve => setTimeout(()=>resolve(this.#employees[id]), 1000)); 
     }
 
@@ -50,9 +49,9 @@ export default class CompanyServiceServer {
         return new Promise (resolve => setTimeout(()=>resolve(Object.values(res)), 3000));
     }
 
-    removeById(id){
+    async removeById(id){
         const URL_FOR_DELETE = URL+'/'+id;
-        fetch(URL_FOR_DELETE, {
+        await fetch(URL_FOR_DELETE, {
             method: 'DELETE',
             headers: {"Content-type": "application/json"}
         });

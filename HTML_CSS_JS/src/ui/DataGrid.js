@@ -8,21 +8,23 @@ export default class DataGrid {
         this.#buildTableHeader(parentId, columns.map(c => c.headerName))
 
     }
-    fillData(rowsData, deleteFunc, updateFunc) {
+     fillData(rowsData, deleteFunc, updateFunc) {
         this.#tBodyElement.innerHTML = rowsData.map(rd => this.#getRow(rd)).join('');
         const deleteButtons = document.querySelectorAll(".remove-button");
         const updateButtons = document.querySelectorAll(".update-button");
-        deleteButtons.forEach(b=>b.addEventListener("click", function () {
+        deleteButtons.forEach(b=>b.addEventListener("click", async function () {
             const row= this.closest('tr');
             const elId = row.querySelector(".rowId").value
+            if (confirm(`you are going to delete employee with id = ${elId}`)){
             row.parentElement.removeChild(row);  
-            deleteFunc(elId);
+            await deleteFunc(elId);
+        }
         }))
-        updateButtons.forEach(b=>b.addEventListener("click", function(){
+        updateButtons.forEach(b=>b.addEventListener("click", async function(){
             const row= this.closest('tr');
             const elId = row.querySelector(".rowId").value
             //row.parentElement.removeChild(row);
-            updateFunc(elId);
+            await updateFunc(elId);
 
         }))
     }

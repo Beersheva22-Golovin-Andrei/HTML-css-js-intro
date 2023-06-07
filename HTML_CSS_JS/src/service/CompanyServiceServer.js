@@ -3,10 +3,30 @@ import { getRandomInt } from "../util/random.js";
 const minId = 100000;
 const maxId = 1000000;
 
+const POLLING_INTERVAL = 5000;
 const URL = 'http://localhost:3500/employees';
 export default class CompanyServiceServer {
-    #employees;
+
+    #baseUrl;
+    #employeesCash;
+    #dataUpdateFn;
+    #intervalId;
+
+    constructor(baseUrl, dataUpdateFn){
+        this.#baseUrl = baseUrl;
+        this.#dataUpdateFn = dataUpdateFn;
+        this.#intervalId = setInterval(this.poller.bind(this), POLLING_INTERVAL)
+    }
    
+
+    async #poller(){
+        const employees = await this.getAllEmployees();
+        if (JSON.stringify(employees)!=JSON.stringify(this.#employeesCash)){
+            this.#dataUpdateFn(employees);
+            this.#employeesCash = employees;
+        }
+    }
+
     async addEmployee(employee) {
         await fetch(URL, {
             method: 'POST',
@@ -17,14 +37,14 @@ export default class CompanyServiceServer {
 
     }
 
-    async updateEmployee(employee, id){
+    updateEmployee(employee, id){
         const URL_FOR_UPDATE = URL+'/'+id;
-        await fetch(URL_FOR_UPDATE, {
+        fetch(URL_FOR_UPDATE, {
             method: 'PUT',
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(employee)
         })
-        return new Promise (resolve => setTimeout(()=>resolve(this.#employees[id]), 1000)); 
+        //return new Promise (resolve => setTimeout(()=>resolve(), 1000)); 
     }
 
     async getStatistics(field, interval) {
@@ -55,6 +75,7 @@ export default class CompanyServiceServer {
             method: 'DELETE',
             headers: {"Content-type": "application/json"}
         });
+        return new Promise (resolve => setTimeout(()=>resolve(), 1000)); 
     }
 
     async getById(id){

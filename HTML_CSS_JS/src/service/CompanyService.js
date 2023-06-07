@@ -32,7 +32,7 @@ export default class CompanyService {
         }while(this.#employees[id]);
         return id;
     }
-    getStatistics(field, interval) {
+    getStatistics(field, interval, employees) {
         let array = Object.values(this.#employees);
         const currentYear = new Date().getFullYear();
         

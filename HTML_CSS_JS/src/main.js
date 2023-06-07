@@ -11,6 +11,7 @@ import EmployeeFormUpdate from "./ui/EmployeeFormUpdate.js";
 import CompanyServiceServer from "./service/CompanyServiceServer.js";
 
 const N_EMPLOYEES = 10;
+
 //employee model
 //{id: number of 9 digits, name: string, birthYear: number,
 // gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
@@ -42,8 +43,8 @@ const statisticsColumns = [
 ]
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler );
-//const companyService = new CompanyService();
-const companyService = new CompanyServiceServer();
+const companyService = new CompanyService();
+//const companyService = new CompanyServiceServer();
 const employeeForm = new EmployeeForm("employees-form-place", departments);
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns );
@@ -70,26 +71,27 @@ employeeForm.addHandler(async (employee) => {
 //})
 
 async function menuHandler(index){
+    updateForm.hideForm();
+
     switch (index){
         case 0: {
             const employees = await action (companyService.getAllEmployees.bind(companyService));
             employeeTable.fillData(employees, companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
             break;
         }
-        case 1:{
-            // const employee = getRandomEmployee(minSalary, maxSalary, minYear, maxYear, departments);
-            // await action(companyService.addEmployee.bind(companyService, employee));
-             break;
-        }
-
+    
         case statisticsIndex:{
-            const ageStatisticsData = await action(companyService.getStatistics.bind(companyService, age.field, age.interval));
-            ageStatistics.fillData(ageStatisticsData);
-            const salaryStatisticsData = await action(companyService.getStatistics.bind(companyService, salary.field, salary.interval));
-            salaryStatistics.fillData(salaryStatisticsData);
+            await statisticProcessing(employees)
             break; 
         }
     }
+}
+
+async function statisticProcessing(employees){
+    const ageStatisticsData = await action(companyService.getStatistics.bind(companyService, age.field, age.interval, employees));
+    ageStatistics.fillData(ageStatisticsData);
+    const salaryStatisticsData = await action(companyService.getStatistics.bind(companyService, salary.field, salary.interval, employees));
+    salaryStatistics.fillData(salaryStatisticsData);
 }
 
 async function createRandomEmplyees(){
@@ -107,7 +109,7 @@ async function action(serviceFn){
     return res;
 }
 
-//action(createRandomEmplyees);
+action(createRandomEmplyees);
     
 // function openAndUpdate (id){
 //     const obj = companyService.getById(id);
@@ -115,14 +117,23 @@ async function action(serviceFn){
 // }
 
 
-function openAndUpdate (id){
-    const obj = companyService.getById(id);
+async function openAndUpdate (id){
+    const obj = await companyService.getById(id);
     const newObj = {...obj, id};
     const employeeFormForUpdate = new EmployeeForm("employees-form-update", departments, newObj, id);
     employeeFormForUpdate.addHandler(async (employee, id) => {
-    await action(companyService.updateEmployee.bind(companyService, employee, id));
+    const objAfterUpdate = await action(companyService.updateEmployee.bind(companyService, employee, id));
+
+    employeeTable.insertRow({...objAfterUpdate, id});
+
     employeeTable.fillData(await companyService.getAllEmployees(), companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
     employeeFormForUpdate.clearForm();
 });
 }
 
+async function dataChangeFn(employees) {
+    switch(menu.getActiveIndex()){
+        case 0: employeeTable.fillData(await companyService.getAllEmployees(), companyService.removeById.bind(companyService), openAndUpdate.bind(companyService));
+        case 2: 
+    }
+}
